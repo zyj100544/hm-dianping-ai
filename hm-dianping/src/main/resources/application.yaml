@@ -1,0 +1,50 @@
+server:
+  port: 8081
+spring:
+  application:
+    name: hmdp
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://${MYSQL_HOST:127.0.0.1}:${MYSQL_PORT:3306}/hmdp?useSSL=false&serverTimezone=UTC
+    username: ${MYSQL_USER:root}
+    password: ${MYSQL_PASSWORD:123456}
+  redis:
+    host: ${REDIS_HOST:192.168.182.128}
+    port: ${REDIS_PORT:6379}
+    password: ${REDIS_PASSWORD:123456}
+    lettuce:
+      pool:
+        max-active: 10
+        max-idle: 10
+        min-idle: 1
+        time-between-eviction-runs: 10s
+  jackson:
+    default-property-inclusion: non_null # JSON处理时忽略非空字段
+  rabbitmq:
+    host: ${RABBITMQ_HOST:192.168.182.128}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:hmall}
+    password: ${RABBITMQ_PASS:123}
+    virtual-host: ${RABBITMQ_VHOST:/hmall}
+    listener:
+      simple:
+        prefetch: 1
+        default-requeue-rejected: false
+mybatis-plus:
+  type-aliases-package: com.hmdp.entity # 别名扫描包
+logging:
+  level:
+    com.hmdp: debug
+
+ai:
+  search:
+    url: ${AI_SEARCH_URL:http://localhost:8000/api/semantic-search}
+  blog-assist:
+    url: ${AI_BLOG_ASSIST_URL:http://localhost:8000/api/blog-assist}
+
+aliyun:
+  oss:
+    endpoint: https://oss-cn-hangzhou.aliyuncs.com
+    access-key-id: ${ALIYUN_OSS_ACCESS_KEY_ID:}
+    access-key-secret: ${ALIYUN_OSS_ACCESS_KEY_SECRET:}
+    bucket-name: ${ALIYUN_OSS_BUCKET_NAME:heima-dianping-ai}
